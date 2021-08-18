@@ -1,0 +1,132 @@
+diff --git a/src/Api/Monetization/Entity/Balance.php b/src/Api/Monetization/Entity/Balance.php
+index 14f98777..55a33593 100644
+--- a/src/Api/Monetization/Entity/Balance.php
++++ b/src/Api/Monetization/Entity/Balance.php
+@@ -51,10 +51,31 @@ class Balance extends Entity implements BalanceInterface
+     /** @var \Apigee\Edge\Api\Monetization\Structure\PaymentTransaction|null */
+     protected $transaction;
+ 
++    /**
++     * The provider ID.
++     *
++     * @var string
++     */
++    protected $providerId;
++
++    /**
++     * The recurring amount.
++     *
++     * @var float
++     */
++    protected $recurringAmount;
++
++    /**
++     * The replenish amount.
++     *
++     * @var float
++     */
++    protected $replenishAmount;
++
+     /**
+      * @inheritdoc
+      */
+-    public function getAmount(): float
++    public function getAmount(): ?float
+     {
+         return $this->amount;
+     }
+@@ -140,4 +161,58 @@ public function setTransaction(PaymentTransaction $transaction): void
+     {
+         $this->transaction = $transaction;
+     }
++
++    /**
++     * {@inheritdoc}
++     */
++    public function getProviderId(): ?string
++    {
++        return $this->providerId;
++    }
++
++    /**
++     * @param string $providerId
++     *
++     * @internal
++     */
++    public function setProviderId(string $providerId): void
++    {
++        $this->providerId = $providerId;
++    }
++
++    /**
++     * {@inheritdoc}
++     */
++    public function getRecurringAmount(): ?float
++    {
++        return $this->recurringAmount;
++    }
++
++    /**
++     * @param float $recurringAmount
++     *
++     * @internal
++     */
++    public function setRecurringAmount(float $recurringAmount): void
++    {
++        $this->recurringAmount = $recurringAmount;
++    }
++
++    /**
++     * {@inheritdoc}
++     */
++    public function getReplenishAmount(): ?float
++    {
++        return $this->replenishAmount;
++    }
++
++    /**
++     * @param float $replenishAmount
++     *
++     * @internal
++     */
++    public function setReplenishAmount(float $replenishAmount): void
++    {
++        $this->replenishAmount = $replenishAmount;
++    }
+ }
+diff --git a/src/Api/Monetization/Entity/BalanceInterface.php b/src/Api/Monetization/Entity/BalanceInterface.php
+index 4e914645..fc3f9284 100644
+--- a/src/Api/Monetization/Entity/BalanceInterface.php
++++ b/src/Api/Monetization/Entity/BalanceInterface.php
+@@ -29,9 +29,9 @@
+ interface BalanceInterface extends EntityInterface, CurrencyPropertyInterface
+ {
+     /**
+-     * @return float
++     * @return float|null
+      */
+-    public function getAmount(): float;
++    public function getAmount(): ?float;
+ 
+     /**
+      * @return bool
+@@ -52,4 +52,19 @@ public function getUsage(): float;
+      * @return \Apigee\Edge\Api\Monetization\Structure\PaymentTransaction|null
+      */
+     public function getTransaction(): ?PaymentTransaction;
++
++    /**
++     * @return string|null
++     */
++    public function getProviderId(): ?string;
++
++    /**
++     * @return float|null
++     */
++    public function getRecurringAmount(): ?float;
++
++    /**
++     * @return float|null
++     */
++    public function getReplenishAmount(): ?float;
+ }
